@@ -8,6 +8,6 @@ export default async function redirectMessages(req: Request, res: Response) {
       req.redirect(307, `api/rockets/${req.params.rocketId}`);
     }
   } catch (err) {
-    throw err;
+    res.json(err);
   }
 }

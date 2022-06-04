@@ -1,0 +1,655 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Rockets API",
+    "description": "Crawler description"
+  },
+  "servers": [
+    {
+      "url": "/api",
+      "description": "Rockets API"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Rockets",
+      "description": "API endpoints for managing rocket statuses"
+    }
+  ],
+  "paths": {
+    "/": {
+      "post": {
+        "summary": "New Rocket State Message",
+        "tags": [
+          "Rockets"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RocketMessage"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad Request or Invalid request body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "ValidationErrorForm": {
+                    "$ref": "#/components/examples/ValidationErrorForm"
+                  },
+                  "BadRequest": {
+                    "$ref": "#/components/examples/BadRequest"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "UnauthorizedError": {
+                    "$ref": "#/components/examples/Unauthorized"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "InternalServerError": {
+                    "$ref": "#/components/examples/InternalServerError"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rockets": {
+      "post": {
+        "summary": "Adds a rocket",
+        "tags": [
+          "Rockets"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RocketsAddNew"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RocketsAddNew"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request or Invalid request body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "ValidationErrorForm": {
+                    "$ref": "#/components/examples/ValidationErrorForm"
+                  },
+                  "BadRequest": {
+                    "$ref": "#/components/examples/BadRequest"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "UnauthorizedError": {
+                    "$ref": "#/components/examples/Unauthorized"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "InternalServerError": {
+                    "$ref": "#/components/examples/InternalServerError"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Returns a list of rockets",
+        "tags": [
+          "Rockets"
+        ],
+        "parameters": [
+          {
+            "name": "sort",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Column to sort by"
+          },
+          {
+            "name": "sortDir",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            },
+            "description": "The query sort direction: 1 for ascending, -1 for descending."
+          },
+          {
+            "name": "queryLimit",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            },
+            "description": "The query limit."
+          },
+          {
+            "name": "allColumns",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Returns all rocket data when true, and just selected properties when false"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON array of rockets",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/RocketsGet"
+                      }
+                    },
+                    "count": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rockets/{rocketId}": {
+      "get": {
+        "summary": "Returns a rocket by ID",
+        "tags": [
+          "Rocket"
+        ],
+        "parameters": [
+          {
+            "name": "rocketId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "allColumns",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Returns all rocket data when true, and just selected properties when false"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RocketsGetNew"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid UUID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "ValidationErrorPath": {
+                    "$ref": "#/components/examples/ValidationErrorPath"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "ResourceNotFound": {
+                    "$ref": "#/components/examples/ResourceNotFound"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "InternalServerError": {
+                    "$ref": "#/components/examples/InternalServerError"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Update the rocket identified by ID",
+        "tags": [
+          "Rocket"
+        ],
+        "parameters": [
+          {
+            "name": "rocketId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RocketsGet"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "ValidationErrorPath": {
+                    "$ref": "#/components/examples/ValidationErrorPath"
+                  },
+                  "ValidationErrorForm": {
+                    "$ref": "#/components/examples/ValidationErrorForm"
+                  },
+                  "BadRequest": {
+                    "$ref": "#/components/examples/BadRequest"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "UnauthorizedError": {
+                    "$ref": "#/components/examples/Unauthorized"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "ResourceNotFound": {
+                    "$ref": "#/components/examples/ResourceNotFound"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "InternalServerError": {
+                    "$ref": "#/components/examples/InternalServerError"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "examples": {
+      "InternalServerError": {
+        "value": {
+          "type": "ServerError",
+          "message": "Server Error",
+          "data": null,
+          "status": 500
+        },
+        "summary": "Internal Server Error"
+      },
+      "ValidationErrorForm": {
+        "value": {
+          "type": "ValidationError",
+          "message": "Invalid request body",
+          "data": [
+            "\"sourceName\" is required"
+          ],
+          "status": 400
+        },
+        "summary": "Validation Error"
+      },
+      "ValidationErrorPath": {
+        "value": {
+          "type": "ValidationError",
+          "message": "Invalid request body",
+          "data": [
+            "\"sourceID\" must be a valid GUID"
+          ],
+          "status": 400
+        },
+        "summary": "Invalid path parameter"
+      },
+      "ResourceNotFound": {
+        "value": {
+          "type": "ResourceNotFound",
+          "message": "Resource of type \"Source\" with identifier \"c9d579bc-c07f-4c10-b764-f981123eb30a\" not found",
+          "data": null,
+          "status": 404
+        },
+        "summary": "Resource not found"
+      },
+      "DatabaseResourceNotFound": {
+        "value": {
+          "type": "ResourceNotFound",
+          "message": "Resource of type \"DatabaseDetails\" with identifier \"c9d579bc-c07f-4c10-b764-f981123eb30a\" not found",
+          "data": null,
+          "status": 404
+        },
+        "summary": "Resource not found"
+      },
+      "BadRequest": {
+        "value": {
+          "type": "BadRequest",
+          "message": "Bad Request",
+          "data": "The source needs to be synchronized before calculating the size",
+          "status": 400
+        },
+        "summary": "Bad Request"
+      },
+      "Unauthorized": {
+        "value": {
+          "type": "Unauthorized",
+          "message": "Unauthorized",
+          "data": null,
+          "status": 401
+        },
+        "summary": "Bad Request"
+      },
+      "createDetailExample": {
+        "value": {
+          "name": "firstName",
+          "description": "Persons first name",
+          "type": "STRING"
+        },
+        "summary": "An example of a 'Detail' object used when creating a new literal."
+      },
+      "existingDetailExample": {
+        "value": {
+          "id": "3c3d967c-c78e-4275-bc77-8127032bc457",
+          "name": "firstName",
+          "description": "Persons first name",
+          "type": "STRING"
+        },
+        "summary": "An example of a existing 'Detail' object, that has an 'id' assigned to it."
+      },
+      "assignResourceExample": {
+        "value": {
+          "resourceId": "ea89b6e8-ce15-4a23-8d54-2a24bca2d4a9",
+          "relation": "supervises"
+        },
+        "summary": "An example of a 'Resource' object used when assigning resources to 'MasterObject'."
+      },
+      "existingResourceExample": {
+        "value": {
+          "resourceId": "ea89b6e8-ce15-4a23-8d54-2a24bca2d4a9",
+          "name": "Person",
+          "relation": "supervises"
+        },
+        "summary": "An example of an existing 'Resource' object."
+      }
+    },
+    "schemas": {
+      "RocketsAddNew": {
+        "properties": {
+          "rocketId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "rocketType": {
+            "type": "string"
+          },
+          "mission": {
+            "type": "string"
+          },
+          "launchSpeed": {
+            "type": "number"
+          },
+          "currentSpeed": {
+            "type": "number"
+          },
+          "lastSpeedIncrease": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastSpeedDecrease": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastUpdatedMission": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastMessageSpeedIncrease": {
+            "type": "number"
+          },
+          "lastMessageSpeedDecrease": {
+            "type": "number"
+          },
+          "lastMessageMission": {
+            "type": "number"
+          },
+          "exploded": {
+            "type": "boolean"
+          },
+          "explodedReason": {
+            "type": "string"
+          }
+        },
+        "example": {
+        }
+      },
+      "RocketsGet": {
+        "properties": {
+          "rocketId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "rocketType": {
+            "type": "string"
+          },
+          "mission": {
+            "type": "string"
+          },
+          "launchSpeed": {
+            "type": "number"
+          },
+          "currentSpeed": {
+            "type": "number"
+          },
+          "exploded": {
+            "type": "boolean"
+          },
+          "explodedReason": {
+            "type": "string"
+          }
+        },
+        "example": {
+        }
+      },
+      "RocketMessage": {
+        "properties": {
+          "metadata": {
+            "type": "object",
+            "properties": {
+              "channel": {
+                "type": "string",
+                "format": "uid"
+              },
+              "messageNumber": {
+                "type": "number"
+              },
+              "messageTime": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "messageType": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "channel",
+              "messageNumber",
+              "messageTime",
+              "messageType"
+            ]
+          },
+          "message": {
+            "type": "object",
+            "properties": {
+              "by": {
+                "type": "number"
+              },
+              "type": {
+                "type": "string"
+              },
+              "launchSpeed": {
+                "type": "number"
+              },
+              "mission": {
+                "type": "string"
+              },
+              "reason": {
+                "type": "string"
+              },
+              "newMission": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "example": {}
+      },
+      "Error": {}
+    }
+  }
+}

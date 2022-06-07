@@ -1,5 +1,3 @@
-export function handeDuplicates(messageNumber: number, lastMessageNumber: number) {
-    if (messageNumber === lastMessageNumber) {
-        // throw Error
-    }
+export function isDuplicate(messageNumber: number, lastMessageNumber: number) {
+    return messageNumber === lastMessageNumber;
 }

@@ -4,6 +4,7 @@ const RocketSchema = new mongoose.Schema({
   rocketId: {
     type: String,
     required: true,
+    unique: true,
   },
   rocketType: {
     type: String,

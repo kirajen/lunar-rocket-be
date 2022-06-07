@@ -1,4 +1,5 @@
 import { getRocketColumns } from "../constants/getRocketColumns";
+import APIError from "../errors/api-error";
 
 const Rocket = require("../models/rockets");
 
@@ -16,6 +17,6 @@ export async function getRocketsService(query) {
       ? await Rocket.find(queryParams, queryOptions).exec()
       : await Rocket.find(queryParams, getRocketColumns, queryOptions).exec();
   } catch (err) {
-    throw err;
+    throw APIError.ServerError;
   }
 }

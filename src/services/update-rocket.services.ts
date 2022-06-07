@@ -4,6 +4,7 @@ import { validateSpeedChangeSchema } from "../middleware/validators/validate-roc
 import { validateExplodedSchema } from "../middleware/validators/validate-rocket-exploded";
 import { isOutOfOrder } from "../utils/handleOutOfOrder";
 import { isDuplicate } from "../utils/handleDuplicates";
+import APIError from "../errors/api-error";
 
 const Rocket = require("../models/rockets");
 
@@ -62,6 +63,6 @@ export async function updateRocketService(
       { $set: updateObject }
     );
   } catch (err) {
-    throw err;
+    throw APIError.ServerError;
   }
 }

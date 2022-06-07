@@ -484,38 +484,6 @@
           "status": 401
         },
         "summary": "Bad Request"
-      },
-      "createDetailExample": {
-        "value": {
-          "name": "firstName",
-          "description": "Persons first name",
-          "type": "STRING"
-        },
-        "summary": "An example of a 'Detail' object used when creating a new literal."
-      },
-      "existingDetailExample": {
-        "value": {
-          "id": "3c3d967c-c78e-4275-bc77-8127032bc457",
-          "name": "firstName",
-          "description": "Persons first name",
-          "type": "STRING"
-        },
-        "summary": "An example of a existing 'Detail' object, that has an 'id' assigned to it."
-      },
-      "assignResourceExample": {
-        "value": {
-          "resourceId": "ea89b6e8-ce15-4a23-8d54-2a24bca2d4a9",
-          "relation": "supervises"
-        },
-        "summary": "An example of a 'Resource' object used when assigning resources to 'MasterObject'."
-      },
-      "existingResourceExample": {
-        "value": {
-          "resourceId": "ea89b6e8-ce15-4a23-8d54-2a24bca2d4a9",
-          "name": "Person",
-          "relation": "supervises"
-        },
-        "summary": "An example of an existing 'Resource' object."
       }
     },
     "schemas": {
@@ -566,6 +534,19 @@
           }
         },
         "example": {
+          "rocketId": "94d2d901-8dbc-5fa1-8b49-7c50972e76a1",
+          "rocketType": "Artemis",
+          "mission": "x123",
+          "launchSpeed": 500,
+          "currentSpeed": 500,
+          "lastSpeedIncrease": "2022-06-04T11:15:55.558Z",
+          "lastSpeedDecrease": "2022-06-04T11:15:55.558Z",
+          "lastUpdatedMission": "2022-06-04T11:15:55.558Z",
+          "lastMessageSpeedIncrease": 1,
+          "lastMessageSpeedDecrease": 1,
+          "lastMessageMission": 1,
+          "exploded": false,
+          "explodedReason": ""
         }
       },
       "RocketsGet": {
@@ -594,6 +575,13 @@
           }
         },
         "example": {
+          "rocketId": "94d2d901-8dbc-5fa1-8b49-7c50972e76a1",
+          "rocketType": "Artemis",
+          "mission": "x123",
+          "launchSpeed": 500,
+          "currentSpeed": 500,
+          "exploded": true,
+          "explodedReason": "PRESSURE_VESSEL_FAILURE"
         }
       },
       "RocketMessage": {
@@ -647,9 +635,18 @@
             }
           }
         },
-        "example": {}
-      },
-      "Error": {}
+        "example": {
+          "metadata": {
+            "channel": "94d2d901-8dbc-5fa1-8b49-7c50972e76a1",
+            "messageNumber": 1,
+            "messageTime": "2022-06-04T11:15:55.558Z",
+            "messageType": "RocketSpeedIncreased"
+          },
+          "message": {
+            "by": 200
+          }
+        }
+      }
     }
   }
 }

@@ -1,11 +1,9 @@
-import { assert, expect, use } from "chai";
+import { assert, expect } from "chai";
 import { createRocketService } from "../../src/services/create-rocket.services";
 import { mockRocketsNew } from "../mockData";
 import mongoose from "mongoose";
-import deepEqualInAnyOrder from "deep-equal-in-any-order";
 
 const Rocket = require("../../src/models/rockets");
-use(deepEqualInAnyOrder);
 
 describe("Create a new rocket", () => {
   beforeEach(async () => {
